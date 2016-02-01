@@ -1,8 +1,11 @@
 dwm 6.1
 ===
 
-Meu fork do dwm com os seguintes patchs aplicados:
+My dwm fork with the patches:
  - gaplessgrid
  - statuscolors
  - uselessgap
  - fibonacci
+ - save floats
+
+![print](print.png)
