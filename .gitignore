@@ -1,3 +1,8 @@
 *
-!*.*
+!*.c
+!*.h
+!.1
+!*.md
+!*.mk
+!LICENSE
 !Makefile
