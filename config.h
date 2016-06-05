@@ -80,10 +80,12 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 //static const char roficmd[] = {}
 static const char *termcmd[]  = { "urxvt", NULL };
-static const char *pscreen[] = { "imgur-screenshot", NULL };
+static const char *pscreen[] = { "scrot", "'%Y-%m-%d_$wx$h_scrot.png'", "-e", "'mv $f ~/Imagens/screen'", NULL };
+static const char *piscreen[] = { "imgur-screenshot", NULL };
 static const char *upvol[]   = { "amixer", "set", "Master", "3%+",     NULL };
 static const char *downvol[] = { "amixer", "set", "Master", "3%-",     NULL };
 static const char *mutevol[] = { "amixer", "set", "Master", "toggle", NULL };
+static const char *rofi[] = { "rofi", "-show", "run", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -106,7 +108,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_i,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_v,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[5] } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -116,7 +118,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ NULL,                         XK_Print,  spawn,          {.v = pscreen} },
+	{ 0,                            XK_Print,  spawn,          {.v = pscreen} },
+	{ MODKEY,                       XK_Print,  spawn,          {.v = piscreen} },
+	{ 0,                            XK_F2,     spawn,          {.v = rofi} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
