@@ -7,10 +7,10 @@
 
 /* appearance */
 static const char *fonts[] = {
-	"hack:size=10"
+	"inconsolata:size=11"
 };
-static const char dmenufont[]       = "hack:size=10";
-static const char normbordercolor[] = "#444444";
+static const char dmenufont[]       = "inconsolata:size=11";
+static const char normbordercolor[] = "#be0000";
 static const char normbgcolor[]     = "#222222";
 static const char normfgcolor[]     = "#bbbbbb";
 static const char selbordercolor[]  = "#005577";
@@ -25,8 +25,8 @@ static const int topbar             = 2;        /* 0 means bottom bar */
 #define NUMCOLORS         4
 static const char colors[NUMCOLORS][MAXCOLORS][8] = {
   // border   foreground background
-  { "#545454", "#6e6e6e", "#212121" },  // normal
-  { "#303030", "#ffffff", "#212121" },  // selected
+  { "#131313", "#6e6e6e", "#212121" },  // normal
+  { "#383636", "#ffffff", "#212121" },  // selected
   { "#212121", "#000000", "#ff3d00" },  // urgent/warning  (black on yellow)
   { "#212121", "#ffffff", "#ff0000" },  // error (white on red)
   // add more here
@@ -34,7 +34,7 @@ static const char colors[NUMCOLORS][MAXCOLORS][8] = {
 
 
 /* tagging */
-static const char *tags[] = { "term", "dev", "web", "mail", "media", "steam", "misc" };
+static const char *tags[] = { "dev", "web", "media", "games", "misc" };
 
 static const Rule rules[] = {
    /* xprop(1):
@@ -43,13 +43,14 @@ static const Rule rules[] = {
    */
       /* class        instance    title       tags mask     isfloating   monitor */
       { "Gimp",         NULL,       NULL,       0,            1,           -1 },
-      { "Firefox",      NULL,       NULL,       1 << 2,       1,           -1 },
-      { "chromium",     NULL,       NULL,       1 << 2,       1,           -1 },
-      { "Steam",        NULL,       NULL,       1 << 5,       1,           -1 },
-      { "Atom",         NULL,       NULL,       1 << 1,       1,           -1 },
-      { "Thunderbird",  NULL,       NULL,       1 << 3,       1,           -1 },
+      { "Firefox",      NULL,       NULL,       1 << 1,       1,           -1 },
+      { "chromium",     NULL,       NULL,       1 << 1,       1,           -1 },
+      { "Steam",        NULL,       NULL,       1 << 4,       1,           -1 },
+      { "Atom",         NULL,       NULL,       1 << 0,       1,           -1 },
+      { "Thunderbird",  NULL,       NULL,       1 << 1,       1,           -1 },
       { "Gedit",        NULL,       NULL,       0,            1,           -1 },
-      { "Vlc",          NULL,       NULL,       0,            1,           -1 }
+      { "Vlc",          NULL,       NULL,       0,            1,           -1 },
+			{ "Nautilus",     NULL,       NULL,       0,            1,           -1 }
 };
 
 /* layout(s) */
