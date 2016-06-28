@@ -59,3 +59,4 @@ Patches applied
 - save floats
 - movestack
 - mpdcontrol
+- pertag
