@@ -60,3 +60,4 @@ Patches applied
 - movestack
 - mpdcontrol
 - pertag
+- centeredmaster

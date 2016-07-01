@@ -43,10 +43,10 @@ static const Rule rules[] = {
    */
       /* class        instance    title       tags mask     isfloating   monitor */
       { "Gimp",         NULL,       NULL,       0,            1,           -1 },
-      { "Firefox",      NULL,       NULL,       1 << 1,       1,           -1 },
+      { "Firefox",      NULL,       NULL,       1 << 1,       0,           -1 },
       { "chromium",     NULL,       NULL,       1 << 1,       1,           -1 },
-      { "Steam",        NULL,       NULL,       1 << 4,       1,           -1 },
-      { "Atom",         NULL,       NULL,       1 << 0,       1,           -1 },
+      { "Steam",        NULL,       NULL,       1 << 3,       1,           -1 },
+      { "Atom",         NULL,       NULL,       1 << 0,       0,           -1 },
       { "Thunderbird",  NULL,       NULL,       1 << 1,       1,           -1 },
       { "Gedit",        NULL,       NULL,       0,            1,           -1 },
       { "Vlc",          NULL,       NULL,       0,            1,           -1 },
@@ -65,6 +65,7 @@ static const Layout layouts[] = {
   { "[@]",      spiral },
   { "[\\]",     dwindle },
   { "###",      gaplessgrid },
+	{ "c",				centeredmaster},
 };
 
 /* key definitions */
@@ -89,6 +90,7 @@ static const char *upvol[]   = { "amixer", "set", "Master", "3%+",     NULL };
 static const char *downvol[] = { "amixer", "set", "Master", "3%-",     NULL };
 static const char *mutevol[] = { "amixer", "set", "Master", "toggle", NULL };
 static const char *rofi[] = { "rofi", "-show", "run", NULL };
+static const char *quitdwm[] = { "pkill", "Xsession", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -114,7 +116,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_v,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[5] } },
+	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[5]} },
+	{ MODKEY,                       XK_c,      setlayout,      {.v = &layouts[6]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -135,7 +138,8 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_q,      spawn,           {.v = quitdwm } },
+	{ MODKEY|ShiftMask,             XK_r,      quit,           {0} },
 	{ MODKEY,                       XK_F1,     mpdchange,      {.i = -1} },
 	{ MODKEY,                       XK_F2,     mpdchange,      {.i = +1} },
 	{ MODKEY,                       XK_Escape, mpdcontrol,     {0} },
