@@ -213,6 +213,7 @@ static void sigchld(int unused);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
+static void centeredmaster(Monitor *);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
@@ -1732,6 +1733,55 @@ tagmon(const Arg *arg)
         if (!selmon->sel || !mons->next)
                 return;
         sendmon(selmon->sel, dirtomon(arg->i));
+}
+
+void
+centeredmaster(Monitor *m) {
+	unsigned int i, n, h, mw, mx, my, oty, ety, tw;
+	Client *c;
+
+  // Count number of clients in the selected monitor
+	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	if(n == 0)
+		return;
+
+  // initialize areas
+  mw = m->ww;
+  mx = 0;
+  my = 0;
+  tw = mw;
+
+	if(n > m->nmaster) {
+    // go mfact box in the center if more than nmaster clients
+    mw = m->nmaster ? m->ww * m->mfact : 0;
+    tw = m->ww - mw;
+
+    if (n - m->nmaster > 1) { // only one client
+      mx = (m->ww - mw) / 2;
+      tw = (m->ww - mw) / 2;
+    }
+  }
+
+  oty = 0;
+  ety = 0;
+	for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+		if(i < m->nmaster) {
+      // nmaster clients are stacked verticaly, in the center of the screen
+			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+			resize(c, m->wx + mx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
+			my += HEIGHT(c);
+		} else {
+      // Stack clients are stacked verticaly
+      if ((i - m->nmaster) % 2 ) {
+        h = (m->wh - ety) / ( (1 + n - i) / 2);
+        resize(c, m->wx, m->wy + ety, tw - (2*c->bw), h - (2*c->bw), False);
+        ety += HEIGHT(c);
+      } else {
+        h = (m->wh - oty) / ((1 + n - i) / 2);
+        resize(c, m->wx + mx + mw, m->wy + oty, tw - (2*c->bw), h - (2*c->bw), False);
+        oty += HEIGHT(c);
+      }
+		}
 }
 
 void
