@@ -13,8 +13,8 @@ static const char dmenufont[]       = "inconsolata:size=11";
 static const char normbordercolor[] = "#be0000";
 static const char normbgcolor[]     = "#222222";
 static const char normfgcolor[]     = "#bbbbbb";
-static const char selbordercolor[]  = "#005577";
-static const char selbgcolor[]      = "#005577";
+static const char selbordercolor[]  = "#383636";
+static const char selbgcolor[]      = "#383636";
 static const char selfgcolor[]      = "#eeeeee";
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int gappx     = 8;        /* gaps */
@@ -44,10 +44,9 @@ static const Rule rules[] = {
       /* class        instance    title       tags mask     isfloating   monitor */
       { "Gimp",         NULL,       NULL,       0,            1,           -1 },
       { "Firefox",      NULL,       NULL,       1 << 1,       0,           -1 },
-      { "chromium",     NULL,       NULL,       1 << 1,       1,           -1 },
+      { "Chromium",     NULL,       NULL,       1 << 1,       1,           -1 },
       { "Steam",        NULL,       NULL,       1 << 3,       1,           -1 },
       { "Atom",         NULL,       NULL,       1 << 0,       0,           -1 },
-      { "Thunderbird",  NULL,       NULL,       1 << 1,       1,           -1 },
       { "Gedit",        NULL,       NULL,       0,            1,           -1 },
       { "Vlc",          NULL,       NULL,       0,            1,           -1 },
       { "Nautilus",     NULL,       NULL,       0,            1,           -1 },
@@ -84,13 +83,13 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 //static const char roficmd[] = {}
-static const char *termcmd[]  = { "urxvt", NULL };
+static const char *termcmd[]  = { "termite", NULL };
 static const char *pscreen[] = { "scrot", "-e", "mv $f ~/Imagens/screen", NULL };
 static const char *piscreen[] = { "imgur-screenshot", NULL };
 static const char *upvol[]   = { "amixer", "set", "Master", "3%+",     NULL };
 static const char *downvol[] = { "amixer", "set", "Master", "3%-",     NULL };
 static const char *mutevol[] = { "amixer", "set", "Master", "toggle", NULL };
-static const char *rofi[] = { "rofi", "-show", "run", NULL };
+static const char *rofi[] = { "rofi", "-show", "run", "-fullscreen", NULL };
 static const char *quitdwm[] = { "pkill", "Xsession", NULL };
 
 static Key keys[] = {
