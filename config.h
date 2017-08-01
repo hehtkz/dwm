@@ -47,8 +47,6 @@ static const Rule rules[] = {
       { "Chromium",     NULL,       NULL,       1 << 1,       1,           -1 },
       { "Steam",        NULL,       NULL,       1 << 3,       1,           -1 },
       { "Atom",         NULL,       NULL,       1 << 0,       0,           -1 },
-      { "Gedit",        NULL,       NULL,       0,            1,           -1 },
-      { "Vlc",          NULL,       NULL,       0,            1,           -1 },
       { "Nautilus",     NULL,       NULL,       0,            1,           -1 },
       { "keepassxc",    NULL,       NULL,       1 << 4,       1,           -1 }
 };

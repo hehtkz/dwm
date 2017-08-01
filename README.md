@@ -50,7 +50,7 @@ Configuration
 The configuration of dwm is done by creating a custom config.h
 and (re)compiling the source code.
 
-Patches applied
+Patches
 -------------------
 - gaplessgrid
 - statuscolors
@@ -61,3 +61,4 @@ Patches applied
 - mpdcontrol
 - pertag
 - centeredmaster
+- attachaside
