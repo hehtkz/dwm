@@ -84,9 +84,10 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "termite", NULL };
 static const char *pscreen[] = { "scrot", "-e", "mv $f ~/Imagens/screen", NULL };
 static const char *piscreen[] = { "imgur-screenshot", NULL };
-static const char *upvol[]   = { "amixer", "set", "Master", "3%+",     NULL };
-static const char *downvol[] = { "amixer", "set", "Master", "3%-",     NULL };
-static const char *mutevol[] = { "amixer", "set", "Master", "toggle", NULL };
+static const char *upvol[]   = { "pactl", "set-sink-volume", "0", "+3%",     NULL };
+static const char *downvol[] = { "pactl", "set-sink-volume", "0", "-3%",     NULL };
+static const char *mutevol[] = { "pactl", "set-sink-mute", "0", "toggle", NULL };
+static const char *playrandomsong[] = {"randomsong", "NULL"};
 static const char *rofi[] = { "rofi", "-show", "run", "-fullscreen", NULL };
 static const char *quitdwm[] = { "pkill", "Xsession", NULL };
 
@@ -141,6 +142,7 @@ static Key keys[] = {
     { MODKEY,                       XK_F1,     mpdchange,      {.i = -1} },
     { MODKEY,                       XK_F2,     mpdchange,      {.i = +1} },
     { MODKEY,                       XK_Escape, mpdcontrol,     {0} },
+    { MODKEY,                       XK_F3,     spawn,          {.v = playrandomsong} },
 };
 
 /* button definitions */
