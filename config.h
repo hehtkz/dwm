@@ -8,11 +8,11 @@
 
 /* appearance */
 static const char *fonts[] = {
-    "inconsolata:size=11"
+    "Inconsolata:size=11"
 };
-static const char dmenufont[]       = "inconsolata:size=11";
+static const char dmenufont[]       = "Inconsolata:size=11";
 static const char normbordercolor[] = "#be0000";
-static const char normbgcolor[]     = "#222222";
+static const char normbgcolor[]     = "#101010";
 static const char normfgcolor[]     = "#bbbbbb";
 static const char selbordercolor[]  = "#383636";
 static const char selbgcolor[]      = "#383636";
@@ -26,8 +26,8 @@ static const int topbar             = 2;        /* 0 means bottom bar */
 #define NUMCOLORS         4
 static const char colors[NUMCOLORS][MAXCOLORS][8] = {
   // border   foreground background
-  { "#131313", "#6e6e6e", "#212121" },  // normal
-  { "#383636", "#ffffff", "#212121" },  // selected
+  { "#131313", "#6e6e6e", "#101010" },  // normal
+  { "#383636", "#ffffff", "#101010" },  // selected
   { "#212121", "#000000", "#ff3d00" },  // urgent/warning  (black on yellow)
   { "#212121", "#ffffff", "#ff0000" },  // error (white on red)
   // add more here
