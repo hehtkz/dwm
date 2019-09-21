@@ -82,18 +82,19 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "termite", NULL };
-static const char *pscreen[] = { "scrot", "-e", "mv $f ~/Imagens/screen", NULL };
-static const char *piscreen[] = { "imgur-screenshot", NULL };
-static const char *upvol[]   = { "pactl", "set-sink-volume", "0", "+3%",     NULL };
-static const char *downvol[] = { "pactl", "set-sink-volume", "0", "-3%",     NULL };
-static const char *mutevol[] = { "pactl", "set-sink-mute", "0", "toggle", NULL };
-static const char *playrandomsong[] = {"randomsong", "NULL"};
+static const char *pscreen[] = { "screenshot", NULL };
+static const char *piscreen[] = { "screenshot", "-c", NULL };
+static const char *upvol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+3%",     NULL };
+static const char *downvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-3%",     NULL };
+static const char *mutevol[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
+static const char *playrandomsong[] = {"randomsong", NULL};
+static const char *playrandomsongs[] = {"randomsong", "-s", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", "-fullscreen", NULL };
-static const char *quitdwm[] = { "pkill", "Xsession", NULL };
 static const char *stopmpd[] = { "mpc", "stop", NULL };
 static const char *openmail[] = { "thunderbird", NULL };
 static const char *openbrowser[] = { "chromium", NULL };
 static const char *openwebsearch[] = { "chromium", "https://google.com", NULL };
+static const char *redshiftonoff[] = { "killall", "-USR1", "redshift", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -132,6 +133,7 @@ static Key keys[] = {
     { 0,                            XK_Print,  spawn,          {.v = pscreen} },
     { MODKEY,                       XK_Print,  spawn,          {.v = piscreen} },
     { 0,                            XK_F2,     spawn,          {.v = rofi} },
+    { MODKEY,                       XK_r,      spawn,          {.v = redshiftonoff} },
     TAGKEYS(                        XK_1,                      0)
     TAGKEYS(                        XK_2,                      1)
     TAGKEYS(                        XK_3,                      2)
@@ -141,22 +143,23 @@ static Key keys[] = {
     TAGKEYS(                        XK_7,                      6)
     TAGKEYS(                        XK_8,                      7)
     TAGKEYS(                        XK_9,                      8)
-    { MODKEY|ShiftMask,             XK_q,      spawn,           {.v = quitdwm } },
-    { MODKEY|ShiftMask,             XK_r,      quit,           {0} },
+    { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
     { MODKEY,                       XK_F1,     mpdchange,      {.i = -1} },
     { MODKEY,                       XK_F2,     mpdchange,      {.i = +1} },
     { MODKEY,                       XK_Escape, mpdcontrol,     {0} },
+    { MODKEY|ShiftMask,             XK_Escape, spawn,          {.v = stopmpd } },
     { MODKEY,                       XK_F3,     spawn,          {.v = playrandomsong } },
-    { 0,                       XF86XK_Mail,                spawn,          {.v = openmail } },
-    { 0,                       XF86XK_HomePage,            spawn,          {.v = openbrowser } },
-    { 0,                       XF86XK_Search,              spawn,          {.v = openwebsearch } },
-    { 0,                       XF86XK_AudioNext,           mpdchange,      {.i = +1 } },
-    { 0,                       XF86XK_AudioPrev,           mpdchange,      {.i = -1 } },
-    { 0,                       XF86XK_AudioPlay,           mpdcontrol,     {0} },
-    { 0,                       XF86XK_AudioStop,           spawn,          {.v = stopmpd } },
-    { 0,                       XF86XK_AudioRaiseVolume,    spawn,          {.v = upvol   } },
-    { 0,                       XF86XK_AudioLowerVolume,    spawn,          {.v = downvol } },
-    { 0,                       XF86XK_AudioMute,           spawn,          {.v = mutevol } }
+    { MODKEY|ShiftMask,             XK_F3,     spawn,          {.v = playrandomsongs } },
+    { 0,                            XF86XK_Mail,                spawn,          {.v = openmail } },
+    { 0,                            XF86XK_HomePage,            spawn,          {.v = openbrowser } },
+    { 0,                            XF86XK_Search,              spawn,          {.v = openwebsearch } },
+    { 0,                            XF86XK_AudioNext,           mpdchange,      {.i = +1 } },
+    { 0,                            XF86XK_AudioPrev,           mpdchange,      {.i = -1 } },
+    { 0,                            XF86XK_AudioPlay,           mpdcontrol,     {0} },
+    { 0,                            XF86XK_AudioStop,           spawn,          {.v = stopmpd } },
+    { 0,                            XF86XK_AudioRaiseVolume,    spawn,          {.v = upvol   } },
+    { 0,                            XF86XK_AudioLowerVolume,    spawn,          {.v = downvol } },
+    { 0,                            XF86XK_AudioMute,           spawn,          {.v = mutevol } }
 };
 
 /* button definitions */
