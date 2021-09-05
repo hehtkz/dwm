@@ -44,12 +44,12 @@ static const Rule rules[] = {
    */
       /* class        instance    title       tags mask     isfloating   monitor */
       { "Gimp",         NULL,       NULL,       0,            1,           -1 },
-      { "Firefox",      NULL,       NULL,       1 << 1,       0,           -1 },
+      { "firefox",      NULL,       NULL,       1 << 1,       0,           -1 },
       { "Chromium",     NULL,       NULL,       1 << 1,       0,           -1 },
       { "Steam",        NULL,       NULL,       1 << 3,       1,           -1 },
-      { "Atom",         NULL,       NULL,       1 << 0,       0,           -1 },
-      { "Nautilus",     NULL,       NULL,       0,            1,           -1 },
-      { "keepassxc",    NULL,       NULL,       1 << 4,       1,           -1 }
+      { "Nautilus",     NULL,       NULL,       0,            0,           -1 },
+      { "keepassxc",    NULL,       NULL,       1 << 4,       0,           -1 },
+      { "Spotify",      NULL,       NULL,       1 << 2,       0,           -1 }
 };
 
 /* layout(s) */
@@ -64,11 +64,11 @@ static const Layout layouts[] = {
   { "[@]",      spiral },
   { "[\\]",     dwindle },
   { "###",      gaplessgrid },
-  { "c",        centeredmaster},
+  { "c",        centeredmaster },
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
     { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -81,20 +81,24 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "termite", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
 static const char *pscreen[] = { "screenshot", NULL };
 static const char *piscreen[] = { "screenshot", "-c", NULL };
 static const char *upvol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+3%",     NULL };
 static const char *downvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-3%",     NULL };
 static const char *mutevol[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
-static const char *playrandomsong[] = {"randomsong", NULL};
-static const char *playrandomsongs[] = {"randomsong", "-s", NULL};
+// static const char *playrandomsong[] = {"randomsong", NULL};
+// static const char *playrandomsongs[] = {"randomsong", "-s", NULL};
 static const char *rofi[] = { "rofi", "-show", "run", "-fullscreen", NULL };
-static const char *stopmpd[] = { "mpc", "stop", NULL };
 static const char *openmail[] = { "thunderbird", NULL };
-static const char *openbrowser[] = { "chromium", NULL };
-static const char *openwebsearch[] = { "chromium", "https://google.com", NULL };
+static const char *openbrowser[] = { "firefox", NULL };
+static const char *openwebsearch[] = { "firefox", "https://google.com", NULL };
 static const char *redshiftonoff[] = { "killall", "-USR1", "redshift", NULL };
+static const char *toggleplaypausesong[] = { "spot", "pp" };
+static const char *stopsong[] = { "spot", "pause" };
+static const char *nextsong[] = { "spot", "next" };
+static const char *previoussong[] = { "spot", "prev" };
+static const char *systray[] = { "stalonetray" };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -121,7 +125,7 @@ static Key keys[] = {
     { MODKEY,                       XK_s,      setlayout,      {.v = &layouts[3]} },
     { MODKEY,                       XK_v,      setlayout,      {.v = &layouts[4]} },
     { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[5]} },
-    { MODKEY,                       XK_c,      setlayout,      {.v = &layouts[6]} },
+//  { MODKEY,                       XK_c,      setlayout,      {.v = &layouts[6]} },
     { MODKEY,                       XK_space,  setlayout,      {0} },
     { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -130,10 +134,11 @@ static Key keys[] = {
     { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
     { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-    { 0,                            XK_Print,  spawn,          {.v = pscreen} },
-    { MODKEY,                       XK_Print,  spawn,          {.v = piscreen} },
-    { 0,                            XK_F2,     spawn,          {.v = rofi} },
-    { MODKEY,                       XK_r,      spawn,          {.v = redshiftonoff} },
+    { 0,                            XK_Print,  spawn,          {.v = pscreen } },
+    { MODKEY,                       XK_Print,  spawn,          {.v = piscreen } },
+    { MODKEY,                       XK_F2,     spawn,          {.v = rofi } },
+    { MODKEY|ShiftMask,             XK_F2,     spawn,          {.v = systray } },
+    { MODKEY,                       XK_r,      spawn,          {.v = redshiftonoff } },
     TAGKEYS(                        XK_1,                      0)
     TAGKEYS(                        XK_2,                      1)
     TAGKEYS(                        XK_3,                      2)
@@ -144,19 +149,18 @@ static Key keys[] = {
     TAGKEYS(                        XK_8,                      7)
     TAGKEYS(                        XK_9,                      8)
     { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-    { MODKEY,                       XK_F1,     mpdchange,      {.i = -1} },
-    { MODKEY,                       XK_F2,     mpdchange,      {.i = +1} },
-    { MODKEY,                       XK_Escape, mpdcontrol,     {0} },
-    { MODKEY|ShiftMask,             XK_Escape, spawn,          {.v = stopmpd } },
-    { MODKEY,                       XK_F3,     spawn,          {.v = playrandomsong } },
-    { MODKEY|ShiftMask,             XK_F3,     spawn,          {.v = playrandomsongs } },
+    // { MODKEY,                       XK_F1,     mpdchange,      {.i = -1} },
+    // { MODKEY,                       XK_F2,     mpdchange,      {.i = +1} },
+    // { MODKEY,                       XK_Escape, mpdcontrol,     {0} },
+    // { MODKEY,                       XK_F3,     spawn,          {.v = playrandomsong } },
+    // { MODKEY|ShiftMask,             XK_F3,     spawn,          {.v = playrandomsongs } },
     { 0,                            XF86XK_Mail,                spawn,          {.v = openmail } },
     { 0,                            XF86XK_HomePage,            spawn,          {.v = openbrowser } },
     { 0,                            XF86XK_Search,              spawn,          {.v = openwebsearch } },
-    { 0,                            XF86XK_AudioNext,           mpdchange,      {.i = +1 } },
-    { 0,                            XF86XK_AudioPrev,           mpdchange,      {.i = -1 } },
-    { 0,                            XF86XK_AudioPlay,           mpdcontrol,     {0} },
-    { 0,                            XF86XK_AudioStop,           spawn,          {.v = stopmpd } },
+    { 0,                            XF86XK_AudioNext,           spawn,          {.v = nextsong } },
+    { 0,                            XF86XK_AudioPrev,           spawn,          {.v = previoussong } },
+    { 0,                            XF86XK_AudioPlay,           spawn,          {.v = toggleplaypausesong } },
+    { 0,                            XF86XK_AudioStop,           spawn,          {.v = stopsong } },
     { 0,                            XF86XK_AudioRaiseVolume,    spawn,          {.v = upvol   } },
     { 0,                            XF86XK_AudioLowerVolume,    spawn,          {.v = downvol } },
     { 0,                            XF86XK_AudioMute,           spawn,          {.v = mutevol } }
